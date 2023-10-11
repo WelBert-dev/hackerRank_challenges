@@ -52,10 +52,15 @@ Sample Output
 
 */
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ConvertTimePMAndAM12Hours_toMillitaryTime24Hours {
-    public static void main(String[] args) {
-        String toMillitaryTime_format24Hours_str = timeConversion_InputMeridianTimeFormat_toOutputMillitaryTimeFormat("12:05:00AM");
-        System.out.println(toMillitaryTime_format24Hours_str);
+    public static void main(String[] args) throws ParseException {
+
+        System.out.println(timeConversionMoreElegant_useJavaTimeAPI("12:25:00AM"));
+
     }
     // Primeira versão MENOS ELEGANTE;
     // Segunada versão ABAIXO MAIS ELEGANTE ;D
@@ -123,5 +128,14 @@ public class ConvertTimePMAndAM12Hours_toMillitaryTime24Hours {
         }
 
         return String.format("%02d%s", hour, timeIn12HourFormat.substring(2, 8));
+    }
+    // TERCEIRA VERSÃO MELHOR AINDA POIS UTILIZA Date-Time API `java.time`;
+    public static String timeConversionMoreElegant_useJavaTimeAPI(String timeIn12HourFormat) throws ParseException {
+        SimpleDateFormat displayFormat_millitaryTime_format24Hours = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat parseFormat_meridianTime_PMAndAM_format12Hours = new SimpleDateFormat("hh:mm:ssa");
+        Date date = parseFormat_meridianTime_PMAndAM_format12Hours.parse(timeIn12HourFormat);
+
+        return displayFormat_millitaryTime_format24Hours.format(date);
+
     }
 }
