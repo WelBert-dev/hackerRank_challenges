@@ -129,7 +129,7 @@ public class ConvertTimePMAndAM12Hours_toMillitaryTime24Hours {
 
         return String.format("%02d%s", hour, timeIn12HourFormat.substring(2, 8));
     }
-    // TERCEIRA VERSÃO MELHOR AINDA POIS UTILIZA Date-Time API `java.time`;
+    // TERCEIRA VERSÃO MELHOR AINDA POIS UTILIZA Legacy Date-Time API;
     public static String timeConversionMoreElegant_useJavaTimeAPI(String timeIn12HourFormat) throws ParseException {
         SimpleDateFormat displayFormat_millitaryTime_format24Hours = new SimpleDateFormat("HH:mm:ss");
         SimpleDateFormat parseFormat_meridianTime_PMAndAM_format12Hours = new SimpleDateFormat("hh:mm:ssa");
