@@ -54,35 +54,57 @@ Sample Output
 
 public class ConvertTimePMAndAM12Hours_toMillitaryTime24Hours {
     public static void main(String[] args) {
-        String s_toMillitaryTime = timeConversion("13:05:00PM");
-        System.out.println(s_toMillitaryTime);
+        String toMillitaryTime_format24Hours_str = timeConversion_InputMeridianTimeFormat_toOutputMillitaryTimeFormat("12:05:00AM");
+        System.out.println(toMillitaryTime_format24Hours_str);
     }
-    public static String timeConversion(String s) {
-        String toMillitaryTime_str = "";
+    // Primeira versão MENOS ELEGANTE;
+    // Segunada versão ABAIXO MAIS ELEGANTE ;D
+    public static String timeConversion_InputMeridianTimeFormat_toOutputMillitaryTimeFormat(String meridianTime_PMAndAM_format12Hours_str) {
+        String toMillitaryTime_format24Hours_str = "";
 
-        if (s.contains("AM") && s.contains("12")) {
+        // Lida com "12:XX:XXAM" pois ele é o único AM com lógica diferente de outros nesta conversão
+        // O mesmo vale para "12:XX:XXPM" (FEITO ABAIXO, NÃO NESTE!) que a lógica é a mesma dos AM "comuns" aonde apenas retira o "AM" e retorna a String
+        if (meridianTime_PMAndAM_format12Hours_str.contains("AM") &&
+            meridianTime_PMAndAM_format12Hours_str.contains("12")) {
 
-            String[] s_splited = s.split(":");
-            s_splited[s_splited.length-1] = s_splited[s_splited.length-1].substring(0, 2);
-            s_splited[0] = "00";
-            toMillitaryTime_str = String.join(":", s_splited);
+                String[] meridianTime_PMAndAM_format12Hours_splited
+                        = meridianTime_PMAndAM_format12Hours_str.split(":");
 
-        } else if (s.contains("AM")|| (s.contains("12") && s.contains("PM"))) {
+            int indexOfLastElement = meridianTime_PMAndAM_format12Hours_splited.length - 1;
+            meridianTime_PMAndAM_format12Hours_splited[indexOfLastElement]
+                        = meridianTime_PMAndAM_format12Hours_splited[indexOfLastElement]
+                                .substring(0, 2);
 
-            toMillitaryTime_str = s.substring(0, s.length() - 2);
+            meridianTime_PMAndAM_format12Hours_splited[0] = "00";
 
-        } else if (s.contains("PM")) {
+            toMillitaryTime_format24Hours_str = String.join(":", meridianTime_PMAndAM_format12Hours_splited);
 
-            String[] s_splited = s.split(":");
-            s_splited[s_splited.length-1] = s_splited[s_splited.length-1].substring(0, 2);
-            int hourInPMFormat_int = Integer.parseInt(s_splited[0]);
+        }
+        // Lida com "XX:XX:XXAM" & TAMBÉM Lida com "12:XX:XXPM" que é a mesma lógica, aonde remove o "PM" e retorna a String
+        else if (meridianTime_PMAndAM_format12Hours_str.contains("AM")||
+                (meridianTime_PMAndAM_format12Hours_str.contains("12") && meridianTime_PMAndAM_format12Hours_str.contains("PM"))) {
+
+            toMillitaryTime_format24Hours_str = meridianTime_PMAndAM_format12Hours_str.substring(0, meridianTime_PMAndAM_format12Hours_str.length() - 2);
+
+        }
+        // Lida com "XX:XX:XXPM" MENOS COM O 12 que tem lógica diferente, aonde o tempo já vem "correto"
+        // pois o "comun" para outros é apenas acrescentar +12 horas, ou seja se for 07:00:00PM + 12 = 19:00:00
+        else if (meridianTime_PMAndAM_format12Hours_str.contains("PM")) {
+
+            String[] meridianTime_PMAndAM_format12Hours_splited
+                = meridianTime_PMAndAM_format12Hours_str.split(":");
+
+            int indexOfLastElement = meridianTime_PMAndAM_format12Hours_splited.length - 1;
+            meridianTime_PMAndAM_format12Hours_splited[indexOfLastElement] = meridianTime_PMAndAM_format12Hours_splited[indexOfLastElement].substring(0, 2);
+
+            int hourInPMFormat_int = Integer.parseInt(meridianTime_PMAndAM_format12Hours_splited[0]);
             int hourInMillitaryFormat_int = hourInPMFormat_int + 12;
-            s_splited[0] = String.valueOf(hourInMillitaryFormat_int);
-            toMillitaryTime_str = String.join(":", s_splited);
+            meridianTime_PMAndAM_format12Hours_splited[0] = String.valueOf(hourInMillitaryFormat_int);
+            toMillitaryTime_format24Hours_str = String.join(":", meridianTime_PMAndAM_format12Hours_splited);
 
         }
 
-        return toMillitaryTime_str;
+        return toMillitaryTime_format24Hours_str;
     }
     public static String timeConversionMoreElegant(String timeIn12HourFormat) {
 
