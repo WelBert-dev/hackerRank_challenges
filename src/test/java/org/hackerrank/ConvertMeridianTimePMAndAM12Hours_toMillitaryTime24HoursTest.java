@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 
-import static org.hackerrank.ConvertTimePMAndAM12Hours_toMillitaryTime24Hours.timeConversionMoreElegant_useJavaTimeAPI;
+import static org.hackerrank.ConvertMeridianTimePMAndAM12Hours_toMillitaryTime24Hours.timeConversionMoreElegant_useJavaTimeAPI;
 
 /* Meridiam Greenwich time to Millitary Time Table:
 
@@ -47,39 +47,72 @@ Ou seja, Formula/Regras de conversão:
 
 */
 
-class ConvertTimePMAndAM12Hours_toMillitaryTime24HoursTest {
+class ConvertMeridianTimePMAndAM12Hours_toMillitaryTime24HoursTest {
 
     @Test
     @DisplayName("When time pertence (1:00AM até 11:00AM) então APENAS remove \"AM\" (1:00AM REMOVE AM == 01:00 MILLITARY);")
-    void whenMeridiamTimeIsBetween_100AM_and_1100AM_and_WhenSuccessful_ThenJustRemovesAM_and_ReturnsTheTime() throws ParseException {
-        String meridiamTime100AM = "1:00:00AM";
-        String meridiamTime1100AM = "11:00:00AM";
-        String meridiamTimeMediumBetweenThey = "05:30:00AM";
+    void whenMeridianTimeIsBetween_100AM_and_1100AM_and_WhenSuccessful_ThenJustRemovesAM_and_ReturnsTheTime() throws ParseException {
+        String meridianTime100AM = "1:00:00AM";
+        String meridianTime1100AM = "11:00:00AM";
+        String meridianTimeMediumBetweenTheyAM = "05:30:00AM";
 
-        String expectedMillitaryTimeForMeridiamTime100AM = "01:00:00";
-        String expectedMillitaryTimeForMeridiamTime1100AM = "11:00:00";
-        String expectedMillitaryForTimeMediumBetweenThey = "05:30:00";
+        String expectedMillitaryTimeForMeridianTime100AM = "01:00:00";
+        String expectedMillitaryTimeForMeridianTime1100AM = "11:00:00";
+        String expectedMillitaryForMeridianTimeMediumBetweenTheyAM = "05:30:00";
 
 
         // When Convert Miridiam "1:00:00AM" to Millitary Time, Then Returns "01:00:00":
-        String meridiamTime100AMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridiamTime100AM);
+        String meridiamTime100AMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridianTime100AM);
         Assertions.assertThat(meridiamTime100AMToBeConvertToMillitaryTime)
                 .isNotNull()
                 .isNotEmpty()
-                .isEqualTo(expectedMillitaryTimeForMeridiamTime100AM);
+                .isEqualTo(expectedMillitaryTimeForMeridianTime100AM);
 
         // When Convert Miridiam "11:00:00AM" to Millitary Time, Then Returns "11:00:00":
-        String meridiamTime1100AMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridiamTime1100AM);
+        String meridiamTime1100AMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridianTime1100AM);
         Assertions.assertThat(meridiamTime1100AMToBeConvertToMillitaryTime)
                 .isNotNull()
                 .isNotEmpty()
-                .isEqualTo(expectedMillitaryTimeForMeridiamTime1100AM);
+                .isEqualTo(expectedMillitaryTimeForMeridianTime1100AM);
 
         // When Convert Miridiam "05:30:00AM" to Millitary Time, Then Returns "05:30:00":
-        String meridiamTimeMediumBetweenTheyToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridiamTimeMediumBetweenThey);
-        Assertions.assertThat(meridiamTimeMediumBetweenTheyToBeConvertToMillitaryTime)
+        String meridiamTimeMediumBetweenTheyAMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridianTimeMediumBetweenTheyAM);
+        Assertions.assertThat(meridiamTimeMediumBetweenTheyAMToBeConvertToMillitaryTime)
                 .isNotNull()
                 .isNotEmpty()
-                .isEqualTo(expectedMillitaryForTimeMediumBetweenThey);
+                .isEqualTo(expectedMillitaryForMeridianTimeMediumBetweenTheyAM);
+    }
+    @Test
+    @DisplayName("When time pertence (1:00PM até 11:00PM) então SOMAR time + 12Horas (1:00PM + 12:00 == 13:00 MILLITARY);")
+    void whenMeridianTimeIsBetween_100PM_and_1100PM_and_WhenSuccessful_ThenSumMeridianTimePlus12Hours_and_RemovesPM_and_ReturnsTheTime() throws ParseException {
+        String meridianTime100PM = "1:00:00PM";
+        String meridianTime1100PM = "11:00:00PM";
+        String meridianTimeMediumBetweenTheyPM = "05:30:00PM";
+
+        String expectedMillitaryTimeForMeridianTime100PM = "13:00:00";
+        String expectedMillitaryTimeForMeridianTime1100PM = "23:00:00";
+        String expectedMillitaryForMeridianTimeMediumBetweenTheyPM = "17:30:00";
+
+
+        // When Convert Miridiam "1:00:00PM" to Millitary Time, Then Returns "13:00:00":
+        String meridiamTime100PMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridianTime100PM);
+        Assertions.assertThat(meridiamTime100PMToBeConvertToMillitaryTime)
+                .isNotNull()
+                .isNotEmpty()
+                .isEqualTo(expectedMillitaryTimeForMeridianTime100PM);
+
+        // When Convert Miridiam "11:00:00PM" to Millitary Time, Then Returns "23:00:00":
+        String meridiamTime1100AMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridianTime1100PM);
+        Assertions.assertThat(meridiamTime1100AMToBeConvertToMillitaryTime)
+                .isNotNull()
+                .isNotEmpty()
+                .isEqualTo(expectedMillitaryTimeForMeridianTime1100PM);
+
+        // When Convert Miridiam "05:30:00PM" to Millitary Time, Then Returns "17:30:00":
+        String meridiamTimeMediumBetweenTheyPMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridianTimeMediumBetweenTheyPM);
+        Assertions.assertThat(meridiamTimeMediumBetweenTheyPMToBeConvertToMillitaryTime)
+                .isNotNull()
+                .isNotEmpty()
+                .isEqualTo(expectedMillitaryForMeridianTimeMediumBetweenTheyPM);
     }
 }

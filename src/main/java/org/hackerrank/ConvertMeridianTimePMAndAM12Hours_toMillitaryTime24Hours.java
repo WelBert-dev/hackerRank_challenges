@@ -56,7 +56,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ConvertTimePMAndAM12Hours_toMillitaryTime24Hours {
+public class ConvertMeridianTimePMAndAM12Hours_toMillitaryTime24Hours {
     public static void main(String[] args) throws ParseException {
 
         System.out.println(timeConversionMoreElegant_useJavaTimeAPI("12:25:00AM"));
