@@ -129,8 +129,6 @@ public class CaesarCipher1_encrypting_strings_shifts_letter_by_number {
         for (int i = 0; i < original_msg_arr.length; i++) {
             if (!Character.isLetter(original_msg_arr[i])) {
                 encrypted.append(original_msg_arr[i]);
-            } else if () {
-
             } else {
                 encrypted.append(alphabet_arr[mapa.get(original_msg_arr[i])+k]);
             }
