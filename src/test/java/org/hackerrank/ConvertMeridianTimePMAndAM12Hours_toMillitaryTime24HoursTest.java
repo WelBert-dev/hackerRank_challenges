@@ -129,4 +129,18 @@ class ConvertMeridianTimePMAndAM12Hours_toMillitaryTime24HoursTest {
                 .isNotEmpty()
                 .isEqualTo(expectedMillitaryTimeForMeridianTime1200AM);
     }
+    @Test
+    @DisplayName("time is 12:00PM Midday then JUST removes \"PM\" (12:00PM REMOVE PM == 12:00 MILLITARY)")
+    void whenMeridianTimeIs1200MiddayPM_and_WhenSuccessful_ThenJustRemovesPM_and_ReturnsTheTime() throws ParseException {
+        String meridianTime1200PM = "12:00:00PM";
+        String expectedMillitaryTimeForMeridianTime1200PM = "12:00:00";
+
+
+        // When Convert Miridiam "12:00:00PM" to Millitary Time, Then Returns "12:00:00":
+        String meridiamTime1200PMToBeConvertToMillitaryTime = timeConversionMoreElegant_useJavaTimeAPI(meridianTime1200PM);
+        Assertions.assertThat(meridiamTime1200PMToBeConvertToMillitaryTime)
+                .isNotNull()
+                .isNotEmpty()
+                .isEqualTo(expectedMillitaryTimeForMeridianTime1200PM);
+    }
 }
