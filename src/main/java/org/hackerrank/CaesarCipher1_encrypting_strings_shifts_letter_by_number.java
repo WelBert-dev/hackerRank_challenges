@@ -145,4 +145,37 @@ public class CaesarCipher1_encrypting_strings_shifts_letter_by_number {
 
         return encrypted.toString();
     }
+
+    public static String caesarCipher_masterVersion(String msg, int shiftAmount) {
+        // Tamanho do alfabeto
+        int alphabetSize = alphabet_arr.length;
+
+        // Garante que o valor de deslocamento seja válido
+        while (shiftAmount > alphabetSize) {
+            shiftAmount -= alphabetSize;
+        }
+
+        StringBuilder encryptedMsg = new StringBuilder(msg.length());
+
+        for (char originalChar : msg.toCharArray()) {
+            if (!Character.isLetter(originalChar)) {
+                // Caracteres não alfabéticos não são alterados
+                encryptedMsg.append(originalChar);
+                continue;
+            }
+
+            boolean isUpperCase = Character.isUpperCase(originalChar);
+            char lowercaseChar = Character.toLowerCase(originalChar);
+            int originalCharIndex = mapa.get(lowercaseChar);
+            int shiftedCharIndex = (originalCharIndex + shiftAmount) % alphabetSize;
+
+            char encryptedChar = isUpperCase
+                    ? Character.toUpperCase(alphabet_arr[shiftedCharIndex])
+                    : alphabet_arr[shiftedCharIndex];
+
+            encryptedMsg.append(encryptedChar);
+        }
+
+        return encryptedMsg.toString();
+    }
 }
