@@ -76,63 +76,73 @@ z -> b
 */
 
 public class CaesarCipher1_encrypting_strings_shifts_letter_by_number {
-    public static void main(String[] args) {
-//        System.out.println(caesarCipher("abcdefghijklmnopqrstuvwxyza", 3));
-
-        System.out.println(caesarCipher("middle-OutZ", 2));
-    }
-    // Versão funcionando com Java > 8, porém não funcionando no HackerRank Java 8
-    // Por conta do método: encrypted.append(Character.toString(c + k));
-    // Abaixo nova versão sem utilizar ela!
-    public static String caesarCipher(String s, int k) {
-        char[] charArray = s.toCharArray();
-        StringBuilder encrypted = new StringBuilder(s.length());
-        for (char c : charArray) {
-            switch (c) {
-                case 'x': case 'X':
-                    encrypted.append('a');
-                    break;
-                case 'y': case 'Y':
-                    encrypted.append('b');
-                    break;
-                case 'z': case 'Z':
-                    encrypted.append('c');
-                    break;
-                default:
-                    if (!Character.isLetter(c)) {
-                        encrypted.append(Character.toString(c));
-                    } else {
-                        encrypted.append(Character.toString(c + k));
-                    }
-
-            }
-        }
-        return encrypted.toString();
-    }
-    // Versão sem utilizar o método:
-    // Porém NÃO FUNCIONANDO COM UPPERCASE, por conta da falta de rotação do array
-    // Quando i current letter is "Z", e k + i ultrapassa o length do array,
-    // tem que resetar o index e voltar no index 0.
-    public static String caesarCipher_notCommonShifted(String s, int k) {
-        // middle-Outz tem que virar: okffng-Qwvb
-        // Cria a tabela de acordo com o index de cada letra
-        String array_str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        char[] alphabet_arr = array_str.toCharArray();
-        Map<Character, Integer> mapa = new HashMap<>();
+    static char[] alphabet_arr;
+    static Map<Character, Integer> mapa;
+    static {
+        String array_str = "abcdefghijklmnopqrstuvwxyz";
+        alphabet_arr = array_str.toCharArray();
+        mapa = new HashMap<>();
         for (int i = 0; i < alphabet_arr.length; i++) {
             mapa.put(alphabet_arr[i], i);
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(caesarCipher_notCommonShifted("6DWV95HzxTCHP85dvv3NY2crzt1aO8j6g2zSDvFUiJj6XWDlZvNNr", 87));
+    }
+    public static String caesarCipher_notCommonShifted(String msg_to_be_encrypted, int qtde_to_be_shifted) {
+
+        // VALIDAÇÃO CONTRA TROLL: Se a qtde do flip for maior que o array do alfabeto,
+        // então reseta até ficar menor ou igual:
+        while (qtde_to_be_shifted > alphabet_arr.length) {
+            qtde_to_be_shifted -= alphabet_arr.length;
+        }
 
         // Finalmente monta a string com a msg encriptada fazendo shifted com mapa
-        char[] original_msg_arr = s.toCharArray();
-        StringBuilder encrypted = new StringBuilder(s.length());
+        char[] original_msg_arr = msg_to_be_encrypted.toCharArray();
+        StringBuilder encrypted = new StringBuilder(msg_to_be_encrypted.length());
+
         for (int i = 0; i < original_msg_arr.length; i++) {
+            // Se não é letra apenas faz o append
             if (!Character.isLetter(original_msg_arr[i])) {
                 encrypted.append(original_msg_arr[i]);
+
+            } else if (Character.isUpperCase(original_msg_arr[i])) {
+
+                // Deixa Lower no próprio array para não repetir codigos abaixo,
+                // e Upper nele quando retornar:
+                original_msg_arr[i] = Character.toLowerCase(original_msg_arr[i]);
+
+                int index_to_be_shifted = mapa.get(original_msg_arr[i]) + qtde_to_be_shifted;
+                boolean isRollbackNecessary = index_to_be_shifted >= alphabet_arr.length;
+                if (isRollbackNecessary) {
+                    int index_with_rollback_shifted = index_to_be_shifted - alphabet_arr.length;
+                    encrypted.append(
+                            Character.toUpperCase(alphabet_arr[index_with_rollback_shifted]));
+                } else {
+                    int index_shifted = mapa.get(original_msg_arr[i])+qtde_to_be_shifted;
+                    encrypted.append(
+                            Character.toUpperCase(alphabet_arr[index_shifted]));
+                }
+
             } else {
-                encrypted.append(alphabet_arr[mapa.get(original_msg_arr[i])+k]);
+
+                // Não é Upper Case
+
+                int index_to_be_shifted = mapa.get(original_msg_arr[i]) + qtde_to_be_shifted;
+                boolean isRollbackNecessary = index_to_be_shifted >= alphabet_arr.length;
+                if (isRollbackNecessary) {
+                    int index_with_rollback_shifted = index_to_be_shifted - alphabet_arr.length;
+                    encrypted.append(
+                            alphabet_arr[index_with_rollback_shifted]);
+                } else {
+                    int index_shifted = mapa.get(original_msg_arr[i])+qtde_to_be_shifted;
+                    encrypted.append(
+                            alphabet_arr[index_shifted]);
+                }
             }
         }
+
         return encrypted.toString();
     }
 }
