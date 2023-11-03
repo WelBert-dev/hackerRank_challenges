@@ -26,4 +26,15 @@ class CaesarCipher1_encrypting_strings_shifts_letter_by_numberTest {
                 .isNotEmpty()
                 .isEqualTo(expected_msg_to_be_encrypted);
     }
+    @Test
+    @DisplayName("WHEN msg_to_be_encrypted contains isn't alphabetic characters THEN don't throws exceptions, JUST keep the non-alphabetic characters in current position AND JUST shifted the alphabetic characters...")
+    void whenMsgToBeEncryptedContainsIsntAlphabeticCharacters_and_WhenSuccessful_ThenJustKeepTheNonAlphabeticCharactersInCurrentPosition_and_JustShiftedTheAlphabeticCharacters_and_ReturnsTheMsgEncrypted() throws ParseException {
+        // Ou seja, não deve ocorrer NENHUMA alteração,
+        // pois chars não alfabéticos NÂO devem sofrer shifted
+        String msg_to_be_encrypted_AND_is_the_msg_to_be_returns = "12345!@#$";
+
+        assertEquals(msg_to_be_encrypted_AND_is_the_msg_to_be_returns,
+                caesarCipher_notCommonShifted(msg_to_be_encrypted_AND_is_the_msg_to_be_returns, 5));
+    }
+
 }
